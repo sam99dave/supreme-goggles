@@ -1,6 +1,10 @@
 ---
-title: Welcome to Quartz
+title: Welcome !!
+name: Samuel Davis
 ---
+![Banner](imgs/nature-banner.jpg)
 
-This is a blank Quartz installation.
-See the [documentation](https://quartz.jzhao.xyz) for how to get started.
+
+How did you get here ?
+
+Anyways, here's something you might want to know [[About Me]]
