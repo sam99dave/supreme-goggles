@@ -1,8 +1,9 @@
 
 ![profile](imgs/profile.jpg)
-## Introduction
 
-Experienced in designing and building Machine Learning and Deep Learning solutions, with a passion for developing AI solutions that solve real-world problems.
+Hey there! I'm Samuel Davis.
+
+I'm always on the lookout for the latest model architectures and love diving into what brilliant minds are coming up with. Learning and exploring new ideas keeps me excited and inspired.
 ## Contact Details
 
 Phone No - +91 8652289114
@@ -15,58 +16,50 @@ GitHub - [sam99dave](https://github.com/sam99dave)
 
 ## Quantiphi
 
-<font color="#92cddc">Title</font> - Machine Learning Engineer
+<font color="#92cddc">Title</font> - Sr. Machine Learning Engineer
 
 <font color="#92cddc">Location</font> - Mumbai
 
 ### Internal Product Development ( QDox )
 
-- Performed R&D and integrated AWS Textract Queries as a feature of the product.
-- Undertook R&D, trained and evaluated QA models such as DeBERTav3 and Donut. Containerized training & inference script for model onboarding.
-- Led an internal POC, displaying SQL query generation and execution capability using Flan-T5, LangChain SQL agents and AWS RDS as a feature addition exploration.
-- Developed and deployed APIs for document comparison using visual & textual features using OpenCV, LayoutLM and LLM embeddings. Optimized the codebase using multi-processing.
-- Developed and analyzed performance of Topic modelling solutions using LDA (gensim) and BERTopic. Containerized the solution and deployed using AWS Lambda.
-- Developed an Active Learning solution, for optimizing and enhancing data labelling process and model performance boosting development progress for POC
-
- **GenAI**
- 
- - Contributed in the development and deployment of RAG system using LLMs, LangChain retriever, Agents and vector stores such as FAISS and opensearch.
-- Undertook R&D on prompt engineering, exploring few shot and zero shot using LangChain prompt templates and tools.
-- Performed research on SFT and RLHF for LLM finetuning using HuggingFace TRL.
+- Integrated and experimented extensively with OCR solutions.
+- Conducted R&D, trained, and evaluated QA models (DeBERTav3, Donut); containerized scripts for seamless model onboarding.
+- Led a POC for SQL query generation/execution using Flan-T5, LangChain SQL agents, and AWS RDS.
+- Created and analyzed topic modeling solutions with LDA (gensim) and BERTopic; containerized and deployed via AWS Lambda.
+- Built an Active Learning solution to enhance data labeling and boost model performance.
+- Contributed to an anonymization solution available on AWS Marketplace
+- Led the R&D for document text anonymization using opensource solutions, displaying promising results.
+- Contributed in the development and deployment RAG system using LLMs, LangChain retriever, agents, and vector stores (OpenSearch).
 
 ### Kiddom
 
-- Textbook Hierarchy Extraction (Production) - Lead a team of taggers for data tagging and involved in the solution architecture planning of the end to end solution.
-- Trained Detectron2 and DiT for object detection. Undertook the exploration of transformer based Donut model, trained and developed custom pre-processing and post-processing for nested hierarchy retrieval.
-- Utilized DynamoDB and RDS for required database updates.
-- Lead the exploration and analysis of Textract Layout API for layout extraction.
-- Productionized the solution using tools such as docker, AWS Lambda, SQS etc.
-
+- **Team Leadership**: Led a team of taggers for data annotation and played a key role in planning the end-to-end solution architecture.
+- **Model Development**: Explored transformer-based Donut model; trained and developed custom pre-processing and post-processing for nested hierarchy retrieval.
+- **Database Management**: Utilized DynamoDB and RDS for necessary database updates.
+- **API Analysis**: Led the exploration and analysis of Textract Layout API for layout extraction.
 
 ### Proof of Concepts
 
-- Performed transcript analysis for dataset preparation. Guided a team of taggers throughout the data tagging process.
-- Trained and evaluated LayoutLM for layout and entity extraction. Deployed inference endpoint using SageMaker.
-- Developed complex custom modular scripts for enhancing and aligning layout to retain transcript structure.
-- End to end integration using SQS, AWS Lambda, SageMaker Endpoints and required database updates and metadata storing using DynamoDB and RDS.
-
+- Trained/deployed models for information extraction for specific client data.
+- Undertook the development of solutions for enhancing and aligning layout to retain simple & complex transcript structure.
+- End to end integration using SQS, AWS Lambda, SageMaker Endpoints and metadata storing using DynamoDB and RDS.
 
 ### Sports Analytics - Coach Solution Firm
 
-- Player Performance Tracking System (Production) - Enhanced the player tracking solution with a custom Object Tracking solution.
-- Contributed in the development & optimized scaled-YOLOv3 and custom SVHN classifier for jersey number recognition.
+- **Player Performance Tracking System (Production)** - Developed custom Player Tracking solution for sports use cases.
+- Optimized scaled-YOLOv3 and custom SVHN classifier for jersey number recognition reducing latency by **3x**.
 - Developed & trained a custom Action Recognition model using ResNet and LSTM on practice session data.
 - Performed rigorous video analysis and developed dataset creation script. Performed hyperparameter tuning and performance evaluation.
 - Undertook R&D for optimizing Action Recognition solution, trained and evaluated performance & latency using different CNN backbones such as DenseNet and CSPNet.
 
-### Sports Media - Sportscast
+### Sports Media
 
-- Media archival system for DFL (Production) - Developed an Object Tracking solution for players using YOLOv5 and SORT, customized the SORT algorithm to generate & utilize histograms to reduce ID Breaking issues.
+- **Media archival system for DFL (Production)** - Developed an Object Tracking solution for players using YOLOv5 and SORT, customized the SORT algorithm to generate & utilize histograms to reduce ID Breaking issues.
 - Performed rigorous video analysis and developed post-processing script to reduce ID Switching issues.
-- Optimized GPU utlization of a Face Detection & Recognition solution by batching and using FAISS, reducing the latency by 3x.
-- Performed output Data analysis using elbow method and dendograms. Developed Clustering solution for overall performance enhancement & process optimization.
+- Optimized GPU utlization for Face Detection & Recognition solution by batching and using FAISS, reducing the latency by 3x with improved throughput.
+- Performed output Data analysis using elbow method and dendograms. Developed Clustering solution for overall performance enhancement & review process optimization.
 - Developed scripts for video and frame metadata extraction using ffmpeg.
-- Integrated ML modules and optimized GPU utilization using and garbage cleaning using multi-processing.
+- Integrated ML modules with optimized GPU utilization reducing the turnaround time for the solution end 2 end by ~ 70%
 
 
 ## Quantiphi
@@ -103,6 +96,5 @@ GPA - 8.97
 
 
 # Personal Projects
-
 
 
