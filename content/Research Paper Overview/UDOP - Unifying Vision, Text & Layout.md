@@ -55,22 +55,24 @@ The model architecture consists of the following components:
 
 ![layout induced vision-text embedding](imgs/udop/unified-encoder.jpg)
 
-`v` -> Document Image
-`si` -> Word Token
-`(x1, y1, x2, y2)i` -> Layout 
-`P` -> Patch size
-`PxPxC` -> Dimension for the patch size
+- `v` -> Document Image
+- `si` -> Word Token
+- `(x1, y1, x2, y2)i` -> Layout 
+- `P` -> Patch size
+- `PxPxC` -> Dimension for the patch size
 
 Each patch is encoded with a `D-dim` vector, these vectors are then grouped as a sequence of vectors.
 
 Each text tokens are also converted to numerical `D-dim` embeddings (through vocabulary look-up).
 
 **Vision-Text Embeddings**
+
 This embedding is a joint representation, its the sum of the text and image patch feature.
 
 > si_updated = si + vj 
 
 **Layout Induced Vision-Text Embeddings**
+
 The authors define a  `layout indicator function` for image patch and token embeddings.
 - 1 >> if the center of `si` falls within the image patch vj
 - 0 >> otherwise
@@ -83,6 +85,7 @@ Over here there is no joint embedding for those image patches which have layout 
 These joint representation are then fed to the `VTL` transformer encoder, this representation greatly enhance the interaction between vision, text and layout in the model input stage.
 
 **Discretization Of The Layout Modality**
+
 Following the progress achieved in generative object detection, the layout modality is discretized.
 Continuous coordinates text bbox are converted to layout tokens.
 - `bbox` - [x1, y1, x2, y2]
@@ -92,6 +95,7 @@ Continuous coordinates text bbox are converted to layout tokens.
 - layout tokens = <50><100><250><300>
 
 **Position Bias**
+
 Following [[TILT]], 2D text token positions are encoded as 2D relative attention bias (similar to [[Relative Attention Bias]] used in T5).
 Unlike other Document AI transformer models, UDOP doesn't use 1D position embeddings because:
 - Joint Embedding (text + vision)
@@ -118,19 +122,23 @@ UDOP can generate all vision, text and layout modalities. Both the decoders ment
 >For the prompt for each of the tasks pls check the paper
 
 **Joint Text-Layout Reconstruction (Masked Text-Layout Modeling)**
+
 - Masking a percentage of the text token
 - Train model to generate tokens and their bbox (layout tokens)
 
 **Layout Modeling**
+
 - Provide single or group of text tokens along with the document image
 - Train the model to generate the positions (layout tokens)
 
 **Visual Text Recognition**
+
 - Masking ratio ~ 50%
 - Identify the text at the given location in the image
 This objective helps the model to learn the joint vision-text embedding by understanding vision-text correspondence (text present embedded in the image).
 
 **Masked Image Reconstruction With Text And Layout**
+
 - Reconstruct image with given text & layout
 - Add text to the corresponding layout
 
@@ -139,11 +147,13 @@ UDOP implements few modification to the MAE decoding process:
 ![Masked Image Reconstruction](imgs/udop/masked-image-reconstruction.png)
 
 --> *Cross Attention with Character Embeddings*
+
 Vision decoder is modified with a `cross attention` so that it can attend to both text token encoder feature along with the embeddings of the characters present in  the token.
 These character embeddings are trainable parameters and not encoded by the encoder.
 This cross-attention with characters only adds linear computation complexity but considerably improves the image generation quality.
 
 --> *Image Decoding*
+
 The VTL encoder only outputs the joint vision-text embedding for non masked image patches and these image patches are fused with text tokens. So, these cannot be directly passed to the MAE encoder.
 - Vision Decoder takes in seq of trainable placeholder embeddings
 - The length & seq order is same as that of the patches of the target image.
@@ -180,6 +190,7 @@ The VTL encoder only outputs the joint vision-text embedding for non masked imag
 - The pre-trained model is fine-tuned on each of the evaluation dataset 
 
 --> **Curriculum Learning**
+
 For the tasks which UDOP attends to the document image resolution matters a lot. The authors use large resolution (1024).
 For low resolution the document text is unidentifiable for both detection and generation.
 
@@ -197,6 +208,7 @@ Noting the visualization tasks mentioned in the paper:
 ![Ablation](imgs/udop/udop-ablation.png)
 
 --> **Ablation on Model Architecture**
+
 `UDOP-dual` - The authors separate the Unified Encoder into text encoder (text and layout) and a vision encoder. The study shows that having one unified encoder is better than having separate encoders for most of the cases (there are exceptions)
 
 ![Model Architecture Ablation](imgs/udop/ablation-model-architecture.png)
