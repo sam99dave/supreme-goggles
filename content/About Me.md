@@ -77,10 +77,7 @@ GitHub - [sam99dave](https://github.com/sam99dave)
 
 # Education
 
-Degree - Bachelor of Engineering
-Course - Computer Engineering
-GPA - 8.97
-
+Bachelor of Engineering - Computer Engineering
 
 # Certifications
 
