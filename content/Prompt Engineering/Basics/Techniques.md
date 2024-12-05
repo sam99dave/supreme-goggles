@@ -267,3 +267,154 @@ ART encourages the model to generalize from demonstrations to decompose a new ta
 
 ### Automatic Prompt Engineer (APE)
 
+[paper](https://arxiv.org/abs/2211.01910)
+
+- Large language model (as an inference model) that is given output demonstrations to generate instruction candidates for a task
+- These candidate solutions will guide the search procedure
+- The instructions are executed using a target model, and then the most appropriate instruction is selected based on computed evaluation scores.
+
+> APE discovers a better zero-shot CoT prompt than the human engineered "Let's think step by step"
+
+
+### Active Prompt
+
+![active prompt](imgs/prompt-engineering/active-prompt.png)
+
+Issue with CoT is that it relies on a fixed set of human annotated exemplars. These might not be suitable for the different tasks.
+
+- Query the LLM with or without a few CoT examples.
+- _k_ possible answers are generated for a set of training questions.
+- An uncertainty metric is calculated based on the _k_ answers (disagreement used)
+- The most uncertain questions are selected for annotation by humans. 
+- The new annotated exemplars are then used to infer each question.
+
+### Directional Stimulus Prompting
+
+- Tune able policy LM is trained to generate the `stimulus/hint`.
+- Policy LM can be small and optimized to generate the hints that guide the black box frozen LLM.
+
+![directional stimulus prompting](imgs/prompt-engineering/directional-stimulus-prompting.png)
+
+### Program Aided Language Models (PAL)
+
+![pal](imgs/prompt-engineering/pal.png)
+
+- LLMs read Natural language problems and generate programs as the intermediate reasoning steps.
+- The solution step is offloaded to a programmatic runtime (such as Python for e.g.)
+
+**Code Snippet**
+
+```Python
+import openai
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+import os
+from langchain.llms import OpenAI
+from dotenv import load_dotenv
+
+load_dotenv()
+ 
+# API configuration
+openai.api_key = os.getenv("OPENAI_API_KEY")
+ 
+# for LangChain
+os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY")
+
+llm = OpenAI(model_name='text-davinci-003', temperature=0)
+
+question = "Today is 27 February 2023. I was born exactly 25 years ago. What is the date I was born in MM/DD/YYYY?"
+ 
+DATE_UNDERSTANDING_PROMPT = """
+# Q: 2015 is coming in 36 hours. What is the date one week from today in MM/DD/YYYY?
+# If 2015 is coming in 36 hours, then today is 36 hours before.
+today = datetime(2015, 1, 1) - relativedelta(hours=36)
+# One week from today,
+one_week_from_today = today + relativedelta(weeks=1)
+# The answer formatted with %m/%d/%Y is
+one_week_from_today.strftime('%m/%d/%Y')
+# Q: The first day of 2019 is a Tuesday, and today is the first Monday of 2019. What is the date today in MM/DD/YYYY?
+# If the first day of 2019 is a Tuesday, and today is the first Monday of 2019, then today is 6 days later.
+today = datetime(2019, 1, 1) + relativedelta(days=6)
+# The answer formatted with %m/%d/%Y is
+today.strftime('%m/%d/%Y')
+# Q: The concert was scheduled to be on 06/01/1943, but was delayed by one day to today. What is the date 10 days ago in MM/DD/YYYY?
+# If the concert was scheduled to be on 06/01/1943, but was delayed by one day to today, then today is one day later.
+today = datetime(1943, 6, 1) + relativedelta(days=1)
+# 10 days ago,
+ten_days_ago = today - relativedelta(days=10)
+# The answer formatted with %m/%d/%Y is
+ten_days_ago.strftime('%m/%d/%Y')
+# Q: It is 4/19/1969 today. What is the date 24 hours later in MM/DD/YYYY?
+# It is 4/19/1969 today.
+today = datetime(1969, 4, 19)
+# 24 hours later,
+later = today + relativedelta(hours=24)
+# The answer formatted with %m/%d/%Y is
+today.strftime('%m/%d/%Y')
+# Q: Jane thought today is 3/11/2002, but today is in fact Mar 12, which is 1 day later. What is the date 24 hours later in MM/DD/YYYY?
+# If Jane thought today is 3/11/2002, but today is in fact Mar 12, then today is 3/12/2002.
+today = datetime(2002, 3, 12)
+# 24 hours later,
+later = today + relativedelta(hours=24)
+# The answer formatted with %m/%d/%Y is
+later.strftime('%m/%d/%Y')
+# Q: Jane was born on the last day of Feburary in 2001. Today is her 16-year-old birthday. What is the date yesterday in MM/DD/YYYY?
+# If Jane was born on the last day of Feburary in 2001 and today is her 16-year-old birthday, then today is 16 years later.
+today = datetime(2001, 2, 28) + relativedelta(years=16)
+# Yesterday,
+yesterday = today - relativedelta(days=1)
+# The answer formatted with %m/%d/%Y is
+yesterday.strftime('%m/%d/%Y')
+# Q: {question}
+""".strip() + '\n'
+
+llm_out = llm(DATE_UNDERSTANDING_PROMPT.format(question=question))
+print(llm_out)
+```
+
+**Output**
+
+```
+# If today is 27 February 2023 and I was born exactly 25 years ago, then I was born 25 years before.
+today = datetime(2023, 2, 27)
+# I was born 25 years before,
+born = today - relativedelta(years=25)
+# The answer formatted with %m/%d/%Y is
+born.strftime('%m/%d/%Y')
+```
+
+```Python
+exec(llm_out)
+print(born)
+>> 02/27/1998
+```
+
+
+### ReAct
+
+> LLMs are used to generate both reasoning traces and task specific actions.
+
+- Generating Reasoning Traces
+	- Allows model to induce, track, update action plan and even handle exceptions.
+- Action Step
+	- Allows to interface with and gather information from external sources such as knowledge bases.
+- The ReAct framework can allow LLMs to interact with external tools to retrieve additional information.
+
+**Benefits**
+
+- Outperforms several state-of-the-art baselines on language and decision-making tasks.
+- Leads to improved human interpretability and trustworthiness of LLMs.
+
+> The authors found that best approach uses ReAct combined with chain-of-thought (CoT) that allows use of both internal knowledge and external information obtained during reasoning.
+
+CoT is great but its lack of access to the external world or inability to update its knowledge can lead to issues like fact hallucination and error propagation.
+
+- CoT suffers from fact hallucination
+- ReAct's structural constraint reduces its flexibility in formulating reasoning steps
+- ReAct depends a lot on the information it's retrieving; non-informative search results derails the model reasoning and leads to difficulty in recovering and reformulating thoughts
+
+> Prompting methods that combine and support switching between ReAct and CoT+Self-Consistency generally outperform all the other prompting methods.
+
+
+### Reflexion
+
