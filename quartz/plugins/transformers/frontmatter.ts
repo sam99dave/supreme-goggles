@@ -5,14 +5,15 @@ import yaml from "js-yaml"
 import toml from "toml"
 import { slugTag } from "../../util/path"
 import { QuartzPluginData } from "../vfile"
+import { i18n } from "../../i18n"
 
 export interface Options {
-  delims: string | string[]
+  delimiters: string | [string, string]
   language: "yaml" | "toml"
 }
 
 const defaultOptions: Options = {
-  delims: "---",
+  delimiters: "---",
   language: "yaml",
 }
 
@@ -39,11 +40,11 @@ function coerceToArray(input: string | string[]): string[] | undefined {
     .map((tag: string | number) => tag.toString())
 }
 
-export const FrontMatter: QuartzTransformerPlugin<Partial<Options> | undefined> = (userOpts) => {
+export const FrontMatter: QuartzTransformerPlugin<Partial<Options>> = (userOpts) => {
   const opts = { ...defaultOptions, ...userOpts }
   return {
     name: "FrontMatter",
-    markdownPlugins() {
+    markdownPlugins({ cfg }) {
       return [
         [remarkFrontmatter, ["yaml", "toml"]],
         () => {
@@ -56,10 +57,10 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options> | undefined> 
               },
             })
 
-            if (data.title) {
+            if (data.title != null && data.title.toString() !== "") {
               data.title = data.title.toString()
-            } else if (data.title === null || data.title === undefined) {
-              data.title = file.stem ?? "Untitled"
+            } else {
+              data.title = file.stem ?? i18n(cfg.configuration.locale).propertyDefaults.title
             }
 
             const tags = coerceToArray(coalesceAliases(data, ["tags", "tag"]))
@@ -69,6 +70,10 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options> | undefined> 
             if (aliases) data.aliases = aliases
             const cssclasses = coerceToArray(coalesceAliases(data, ["cssclasses", "cssclass"]))
             if (cssclasses) data.cssclasses = cssclasses
+
+            const socialImage = coalesceAliases(data, ["socialImage", "image", "cover"])
+
+            if (socialImage) data.socialImage = socialImage
 
             // fill in frontmatter
             file.data.frontmatter = data as QuartzPluginData["frontmatter"]
@@ -87,10 +92,13 @@ declare module "vfile" {
         tags: string[]
         aliases: string[]
         description: string
-        publish: boolean
-        draft: boolean
+        publish: boolean | string
+        draft: boolean | string
+        lang: string
         enableToc: string
         cssclasses: string[]
+        socialImage: string
+        comments: boolean | string
       }>
   }
 }

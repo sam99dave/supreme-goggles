@@ -14,9 +14,7 @@ const defaultOptions: Options = {
   linkHeadings: true,
 }
 
-export const GitHubFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> | undefined> = (
-  userOpts,
-) => {
+export const GitHubFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options>> = (userOpts) => {
   const opts = { ...defaultOptions, ...userOpts }
   return {
     name: "GitHubFlavoredMarkdown",
@@ -32,6 +30,7 @@ export const GitHubFlavoredMarkdown: QuartzTransformerPlugin<Partial<Options> | 
             {
               behavior: "append",
               properties: {
+                role: "anchor",
                 ariaHidden: true,
                 tabIndex: -1,
                 "data-no-popover": true,
