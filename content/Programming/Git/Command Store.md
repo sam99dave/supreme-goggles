@@ -19,6 +19,7 @@ git config --remove-section section
 ```
 
 There are several locations where Git can be configured. From more general to more specific, they are:
+
 - **system**: /etc/gitconfig, a file that configures Git for all users on the system
 - **global**: ~/.gitconfig, a file that configures Git for all projects of a user
 - **local**: .git/config, a file that configures Git for a specific project
