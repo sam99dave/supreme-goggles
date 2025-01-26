@@ -25,5 +25,5 @@ There are several locations where Git can be configured. From more general to mo
 - **local**: .git/config, a file that configures Git for a specific project
 - **worktree**: .git/config.worktree, a file that configures Git for part of a project
 
-![[Pasted image 20250126142054.png]]
+
 
