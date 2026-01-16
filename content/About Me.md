@@ -1,7 +1,7 @@
 
 ![profile](imgs/profile.jpg)
 
-Hey there! I'm Samuel Davis.
+Hey there! I'm Samuel Davis!
 
 I'm always on the lookout for the latest model architectures and love diving into what brilliant minds are coming up with. Learning and exploring new ideas keeps me excited and inspired.
 ## Contact Details
